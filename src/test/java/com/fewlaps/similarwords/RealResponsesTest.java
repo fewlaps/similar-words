@@ -50,4 +50,14 @@ public class RealResponsesTest {
     assertThat(result.getSimilarWords().get(1)).isEqualTo("ROC0");
     assertThat(result.getSimilarWords().get(2)).isEqualTo("R0C0");
   }
+
+  @Test
+  public void shouldReturnRIC_whenInputIsR1C() {
+    String input = "R1C";
+    Result result = library.getSimilarWords(input);
+
+    assertThat(result.getSimilarWords().size()).isEqualTo(2);
+    assertThat(result.getSimilarWords().get(0)).isEqualTo("RlC");
+    assertThat(result.getSimilarWords().get(1)).isEqualTo("RIC");
+  }
 }

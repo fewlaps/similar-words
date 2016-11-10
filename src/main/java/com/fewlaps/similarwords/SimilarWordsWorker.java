@@ -11,6 +11,7 @@ public class SimilarWordsWorker {
 
   static {
     similarCharsGroupGroups.add(new SimilarCharsGroup("O", "0"));
+    similarCharsGroupGroups.add(new SimilarCharsGroup("1", "l", "I"));
   }
 
   private final CharSearcher charSearcher = new CharSearcher();
