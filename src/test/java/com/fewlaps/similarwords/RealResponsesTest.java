@@ -15,11 +15,19 @@ public class RealResponsesTest {
   }
 
   @Test
-  public void shouldReturnEmpty_whenInputIsRoc() {
+  public void shouldReturnEmpty_whenInputDoesntHaveSimilarWords() {
     String input = "Roc";
     Result result = library.getSimilarWords(input);
 
     assertThat(result.getSimilarWords().size()).isEqualTo(0);
   }
 
+  @Test
+  public void shouldReturnR0C_whenInputIsROC() {
+    String input = "ROC";
+    Result result = library.getSimilarWords(input);
+
+    assertThat(result.getSimilarWords().get(0)).isEqualTo("R0C");
+    assertThat(result.getSimilarWords().size()).isEqualTo(1);
+  }
 }
