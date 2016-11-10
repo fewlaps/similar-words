@@ -18,6 +18,7 @@ public class EmptyInputTest {
   public void shouldReturnEmptyList_ifInputIsNull() {
     String input = null;
     Result result = library.getSimilarWords(input);
+    assertTrue(result.getOriginalWord() == null);
     assertTrue(result.getSimilarWords().isEmpty());
   }
 
@@ -25,6 +26,7 @@ public class EmptyInputTest {
   public void shouldReturnEmptyList_ifInputIsEmpty() {
     String input = "";
     Result result = library.getSimilarWords(input);
+    assertTrue(result.getOriginalWord().equals(""));
     assertTrue(result.getSimilarWords().isEmpty());
   }
 
@@ -32,6 +34,7 @@ public class EmptyInputTest {
   public void shouldReturnEmptyList_ifInputIsASpace() {
     String input = " ";
     Result result = library.getSimilarWords(input);
+    assertTrue(result.getOriginalWord().equals(" "));
     assertTrue(result.getSimilarWords().isEmpty());
   }
 
@@ -39,6 +42,7 @@ public class EmptyInputTest {
   public void shouldReturnEmptyList_ifInputAreTwoSpaces() {
     String input = "  ";
     Result result = library.getSimilarWords(input);
+    assertTrue(result.getOriginalWord().equals("  "));
     assertTrue(result.getSimilarWords().isEmpty());
   }
 }
