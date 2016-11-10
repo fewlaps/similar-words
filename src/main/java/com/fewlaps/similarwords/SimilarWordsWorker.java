@@ -6,39 +6,40 @@ import java.util.List;
 
 public class SimilarWordsWorker {
 
-  static List<SimilarCharsGroup> similarCharsGroupGroups = new ArrayList<SimilarCharsGroup>();
+  private static final int FIRST_ITERATION = -1;
+  private static List<SimilarCharsGroup> similarCharsGroupGroups = new ArrayList<SimilarCharsGroup>();
 
   static {
     similarCharsGroupGroups.add(new SimilarCharsGroup("O", "0"));
   }
 
-  CharSearcher charSearcher = new CharSearcher();
-  StringCharReplacer charReplacer = new StringCharReplacer();
+  private final CharSearcher charSearcher = new CharSearcher();
+  private final StringCharReplacer charReplacer = new StringCharReplacer();
 
   public Result getSimilarWords(String input) {
-    if (input == null || input.trim().isEmpty()) {
+    if (isEmpty(input)) {
       return new Result(input);
     }
 
-    List<String> similarWords = new ArrayList();
+    List<String> result = new ArrayList<String>();
     List<String> wordsToScan = Collections.singletonList(input);
-    int newSuggestions = -1;
-    while (newSuggestions == -1 || newSuggestions > 0) {
-      List<String> newSuggestedWords = new ArrayList<String>();
+    int suggestionsCount = FIRST_ITERATION;
+    while (suggestionsCount == FIRST_ITERATION || suggestionsCount > 0) {
+      List<String> suggestions = new ArrayList<String>();
       for (String wordToScan : wordsToScan) {
-        List<String> suggestedWords = findSimilarWords(wordToScan);
-        newSuggestedWords = getNewSuggestions(suggestedWords, similarWords, input);
-        similarWords.addAll(newSuggestedWords);
-        newSuggestions = newSuggestedWords.size();
+        List<String> suggestedWords = suggestSimilarWords(wordToScan);
+        suggestions = filterNewSuggestions(suggestedWords, result, input);
+        suggestionsCount = suggestions.size();
+        result.addAll(suggestions);
       }
-      wordsToScan = newSuggestedWords;
+      wordsToScan = suggestions;
     }
 
-    return new Result(input, similarWords);
+    return new Result(input, result);
   }
 
-  private List<String> findSimilarWords(String input) {
-    List<String> similarWords = new ArrayList();
+  private List<String> suggestSimilarWords(String input) {
+    List<String> similarWords = new ArrayList<String>();
     for (SimilarCharsGroup group : similarCharsGroupGroups) {
       for (String originalChar : group.getSimilarChars()) {
         for (String translationChar : group.getSimilarChars()) {
@@ -54,13 +55,17 @@ public class SimilarWordsWorker {
     return similarWords;
   }
 
-  private List<String> getNewSuggestions(List<String> newSuggestions, List<String> oldSuggestions, String originalWord) {
-    List<String> result = new ArrayList();
+  private List<String> filterNewSuggestions(List<String> newSuggestions, List<String> oldSuggestions, String originalWord) {
+    List<String> result = new ArrayList<String>();
     for (String newSuggestion : newSuggestions) {
       if (!oldSuggestions.contains(newSuggestion) && !newSuggestion.equals(originalWord)) {
         result.add(newSuggestion);
       }
     }
     return result;
+  }
+
+  private boolean isEmpty(String input) {
+    return input == null || input.trim().isEmpty();
   }
 }
