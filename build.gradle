@@ -2,43 +2,24 @@ group 'com.fewlaps.similarwords'
 version '1.0.0'
 
 apply plugin: 'java'
-apply plugin: 'com.novoda.bintray-release'
-apply plugin: 'cobertura'
-apply plugin: 'com.github.kt3k.coveralls'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile 'org.assertj:assertj-core:3.5.2'
-    testCompile 'org.mockito:mockito-all:1.8.4'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
+    testImplementation 'org.assertj:assertj-core:3.5.2'
+    testImplementation 'org.mockito:mockito-all:1.8.4'
 }
 
 buildscript {
     repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.3.4'
-        classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // cobertura plugin
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
+        mavenCentral()
     }
 }
 
 compileJava {
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 }
-
-publish {
-    userOrg = 'fewlaps'
-    groupId = 'com.fewlaps.similarwords'
-    artifactId = 'similar-words'
-    publishVersion = '1.0.0'
-    desc = 'I and 1 seems the same... but nope!'
-    website = 'https://github.com/Fewlaps/similar-words'
-}
-
-cobertura.coverageFormats = ['html', 'xml'] // coveralls plugin depends on xml format report
